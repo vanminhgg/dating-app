@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import { promises } from 'dns';
@@ -9,12 +9,19 @@ export class UserController {
     constructor (private readonly userService : UserService) {}
 
     @Get("/gets")
-    getAllUser (): Promise<User[]> {
-        return this.userService.findAll();
+    async getAllUser (): Promise<User[]> {
+        let users =  await this.userService.findAll();
+        return users;
     }
 
     @Post("/create")
-    createUser(@Body() userdto: CreateUserDto): CreateUserDto {
+    async createUser(@Body() userdto: CreateUserDto): Promise<CreateUserDto> {
+        this.userService.create(userdto);
         return userdto
+    }
+    
+    @Get("/:id")
+    async getUserById (@Param() id: number): Promise<User> {
+        return this.userService.findById(id);
     }
 }

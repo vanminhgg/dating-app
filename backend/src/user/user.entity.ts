@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, IsNull } from 'typeorm';
 
 @Entity({name: "user"})
 export class User {
@@ -29,31 +29,31 @@ export class User {
   @Column()
   gender: string;
 
-  @Column()
+  @Column({default:""})
   job: string;
 
-  @Column({default: "https://p16-capcut-sign-va.ibyteimg.com/tos-alisg-v-643f9f/3e6ad78f37934e9584cc0fe78ea35eae~tplv-nhvfeczskr-1:250:0.webp?lk3s=44acef4b&x-expires=1741319756&x-signature=ZekxFwgVOppLn%2FpY4qj4WNWFd%2Fg%3D"})
+  @Column({default: "https://www.svgrepo.com/show/452030/avatar-default.svg"})
   avt: string;
 
-  @Column()
+  @Column({default:""})
   hometown: string;
 
-  @Column({name : "current_residence"})
+  @Column({name : "current_residence", default: ""})
   currentResidence: string;
 
-  @Column()
+  @Column({default:""})
   school: string;
 
-  @Column()
+  @Column({default:0})
   height: number;
 
   @Column({default: ""})
   bio: string;
 
-  @Column()
+  @Column({default:""})
   looking: string;
 
-  @Column({name : "create_date"})
+  @Column({name : "create_date", default: ""})
   createDate: string;
 
 }

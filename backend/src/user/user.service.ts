@@ -17,7 +17,12 @@ export class UserService {
         return this.usersRepository.find()
     }
 
+    findById(id : number): Promise<User> {
+        return this.usersRepository.findOneBy({id})
+    }
+
     create(createUserDto: CreateUserDto) {
-        this.usersRepository.create(this.userMapper.fromCreateUser(createUserDto))
+        const user = this.usersRepository.create(this.userMapper.fromCreateUser(createUserDto))
+        this.usersRepository.save(user)
     }
 }
