@@ -10,10 +10,6 @@ export class CreateUserDto {
     
     password: string;
   
-    phone: string;
-  
-    dob: string;
-  
     gender: string;
   
 }

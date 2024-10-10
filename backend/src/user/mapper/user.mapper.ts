@@ -1,4 +1,5 @@
 import { CreateUserDto } from "../dto/create-user.dto";
+import { ResUserDto } from "../dto/response-user.dto";
 import { User } from "../user.entity";
 
 export class UserMapper {
@@ -9,9 +10,11 @@ export class UserMapper {
         user.lastname = createUserDto.lastname
         user.email = createUserDto.email
         user.password = createUserDto.password
-        user.phone = createUserDto.phone
-        user.dob = createUserDto.dob
         user.gender = createUserDto.gender
         return user
+    }
+    toCreateUser (user: User) : ResUserDto {
+        const {password, ...resUser} = user;
+        return resUser;
     }
 }

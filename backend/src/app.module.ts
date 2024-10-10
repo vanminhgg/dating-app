@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from './user/user.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
+
 const typeormModule = TypeOrmModule.forRootAsync({
   imports: [ConfigModule],
   inject: [ConfigService],
@@ -20,13 +21,15 @@ const typeormModule = TypeOrmModule.forRootAsync({
 })
 })
 
+
 @Module({
   imports: [ UserModule
             ,AuthModule
             ,typeormModule
-            , ConfigModule.forRoot({
-            isGlobal: true, // This makes the ConfigModule available globally in your app
-          }),],
+            ,ConfigModule.forRoot({
+              isGlobal: true, // This makes the ConfigModule available globally in your app
+            })
+        ],
   controllers: [],
   providers: [],
 })  
