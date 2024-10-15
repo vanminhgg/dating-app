@@ -15,16 +15,28 @@ export class UserService {
       ) {}
 
     findAll() : Promise<User[]>  {
-        return this.usersRepository.find()
+        return this.usersRepository.find()  
     }
 
-    findById(id : number): Promise<User> {
-        return this.usersRepository.findOneBy({id})
-    }
+    async findById(id : number): Promise<User> {
+        const user = await this.usersRepository.findOneBy({id})
+        return user
+    } 
 
-    create(createUserDto: CreateUserDto) {
+    create(createUserDto: CreateUserDto): User {
+        if (this.usersRepository.findOneBy({username: createUserDto.username})) {
+            return null
+        }
+        if(this.usersRepository.findBy({email: createUserDto.email})) {
+            return null
+        }
         const user = this.usersRepository.create(this.userMapper.fromCreateUser(createUserDto))
+        if(!user)
+        {
+            return null;
+        }
         this.usersRepository.save(user)
+        return user
     }
 
     async validateUser(username: string, pass: string) : Promise<ResUserDto> {

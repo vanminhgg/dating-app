@@ -27,7 +27,7 @@ const typeormModule = TypeOrmModule.forRootAsync({
             ,AuthModule
             ,typeormModule
             ,ConfigModule.forRoot({
-              isGlobal: true, // This makes the ConfigModule available globally in your app
+              isGlobal: true,
             })
         ],
   controllers: [],

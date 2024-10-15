@@ -20,10 +20,10 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column({default: ""})
   phone: string;
 
-  @Column()
+  @Column({default: ""})
   dob: string;
 
   @Column()

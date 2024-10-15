@@ -1,27 +1,48 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import { promises } from 'dns';
 import { CreateUserDto } from './dto/create-user.dto';
+import { JwtAuthGuard } from 'src/auth/jwt.strategy';
+import { ApiResponse } from 'src/common/common.response';
 
-@Controller('user')
+@Controller("user/")
 export class UserController {
-    constructor (private readonly userService : UserService) {}
+    constructor (private userService : UserService) {}
 
-    @Get("/gets")
-    async getAllUser (): Promise<User[]> {
-        let users =  await this.userService.findAll();
+    @Get("gets")
+    getAllUser (): Promise<User[]> {
+        let users = this.userService.findAll();
         return users;
     }
-
-    @Post("/create")
-    async createUser(@Body() userdto: CreateUserDto): Promise<CreateUserDto> {
-        this.userService.create(userdto);
-        return userdto
-    }
     
-    @Get("/:id")
-    async getUserById (@Param() id: number): Promise<User> {
-        return this.userService.findById(id);
+    @Get("find/:id")
+    async getUserById (@Param() id: number) {
+        const user = await this.userService.findById(id);
+        if(!user) {
+            return new ApiResponse(false, {
+                message: "not found!"
+            })
+        }
+        return new ApiResponse (true, {
+            data: user,
+            message: ""
+        })
+    }
+
+    @Get("profile")
+    @UseGuards(JwtAuthGuard)
+    async getProfile (@Request() req) {
+        const user = await this.userService.findById(req.user?.id)
+        if(!user) {
+            return new ApiResponse(false, {
+                message: "not found!"
+            })
+        }
+        const {password, ...resUser} = user
+        return new ApiResponse (true, {
+            data: resUser,
+            message: ""
+        }) 
     }
 }
