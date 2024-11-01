@@ -25,7 +25,7 @@ export class AuthController {
         return new ApiResponse(true, {
             data,
             message: "login successful!"
-        }) 
+        })
     }
 
     @Post("/register")

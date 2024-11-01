@@ -13,7 +13,7 @@ export class UserMapper {
         user.gender = createUserDto.gender
         return user
     }
-    toCreateUser (user: User) : ResUserDto {
+    totoResUser (user: User) : ResUserDto {
         const {password, ...resUser} = user;
         return resUser;
     }
