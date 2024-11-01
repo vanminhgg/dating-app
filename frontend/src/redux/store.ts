@@ -1,12 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, PayloadAction } from '@reduxjs/toolkit'
 import { PersistConfig, persistReducer, persistStore } from 'redux-persist';
 import {combineReducers} from 'redux'
 import storage from 'redux-persist/lib/storage'
-import { userSlice } from './reducer/UserSlice';
 import { userApi } from './api/UserApi';
+import { userReducer } from './reducer/UserSlice';
+import { loadingReducer } from './reducer/LoadingSlice';
 
 const reducer = combineReducers({
-    user: userSlice,
+    user: userReducer,
+    isLoading: loadingReducer,
     [userApi.reducerPath]: userApi.reducer
 });
 
@@ -15,7 +17,7 @@ const persistConfig : PersistConfig<any>= {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, reducer)
+const persistedReducer = persistReducer<any, PayloadAction<{user: any, token: string}>>(persistConfig, reducer)
 
 const store = configureStore({
   reducer: persistedReducer, 

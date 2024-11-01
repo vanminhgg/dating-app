@@ -4,8 +4,11 @@ import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './auth/Login';
 import Home from './Home';
+import { useSelector } from 'react-redux';
+import Loading from './common/Loading';
 
 function App() {
+  const isLoading  = useSelector((state: any)=> state.isLoading)
   const router = createBrowserRouter([
     {
       path: '/login',
@@ -31,9 +34,10 @@ function App() {
     // },
   ]);
   return (
-    <>
+    <div>
+      {isLoading && <Loading/>}
       <RouterProvider router={router} />
-    </>
+    </div>
   );
 }
 
